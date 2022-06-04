@@ -1,7 +1,9 @@
 # Run this script to open libraries
 
 need <- c(
-          "tidyverse")
+          "tidyverse", 
+          "academictwitteR", 
+          "here")
 
 have <- need %in% rownames(installed.packages()) # checks packages you have
 
