@@ -3,7 +3,8 @@
 need <- c(
           "tidyverse", 
           "academictwitteR", 
-          "here")
+          "here", 
+          "tm")
 
 have <- need %in% rownames(installed.packages()) # checks packages you have
 
