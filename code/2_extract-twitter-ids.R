@@ -35,8 +35,14 @@ testfun <- function(t) {
 
 testfun(1:ceiling(nrow(MPs_Twitter)/100))
 
+for (i in 1:ceiling(nrow(MPs_Twitter)/100)) {
+  eval(parse(text = paste0("test_id", i, "<-", i)))
+}
 
+t <- 1
+eval(parse(text = paste0("test_id", t, "<-", t)))
 
+# Maybe do this it in a loop (see test) 
 
 # Bind user_ids 
 
