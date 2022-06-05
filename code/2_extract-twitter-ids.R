@@ -57,3 +57,9 @@ user_ids6 <- get_user_id(
 # Bind user_ids 
 
 user_ids <- rbind(user_ids1, user_ids3, user_ids3, user_ids4, user_ids5, user_ids6)
+
+
+write_rds(user_ids, here("input_data", "MP_user_ids.rds"))
+
+rm(MPs_Twitter, screen_names, screen_names_split, user_ids, user_ids1, user_ids2, user_ids3, user_ids4, user_ids5, user_ids6)
+
