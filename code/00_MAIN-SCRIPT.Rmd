@@ -1,0 +1,41 @@
+---
+title: "MP Tweets Dataset Notebook"
+output: html_notebook
+---
+
+# Pulling British MPs' Tweets
+
+The aim of this mini-project is to create a dataset of British MPs' tweets. In order to do this, an academic
+
+## Set-up
+
+In order to run the code, an academic developer licence is required to access Twitter's API.
+
+Once you have an academic licence:
+
+-   Copy your bearer token
+
+-   Load the `academictwitteR` package
+
+-   Run the command `set_bearer()` and follow the instructions
+
+-   They involve making a file called `.Renviron` in the root directory and typing:
+
+    -   `TWITTER_BEARER=AAAA…`, where `AAAA…` is your own bearer token
+
+-   You can also set your bearer token manually, but this is less secure because it might appear in `.Rhistory` files or scripts. This is especially a problem if they are shared files.
+
+The rest of the code can be run from this repository
+
+## Code
+
+```{r}
+if (!require("here")) install.packages("here")
+source(here("code", "01_packages.R"))
+```
+
+Helpfully, [Michael Keith](https://www.michaelkeith.co.uk/) has created a [online dashboard](https://www.politics-social.com/) of British MPs' Twitter activity. On the website, there are `.csv` files which allow us to pull MPs' usernames. Run the following script:
+
+```{r}
+source(here("code", "1_pull-latest-MPs.R"))
+```
