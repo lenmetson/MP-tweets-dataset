@@ -20,15 +20,25 @@ fun1 <- function(r) {
 
 p2 <- fun1(1:ceiling(nrow(MPs_Twitter)/100))
 
-# Need to find a way to sequentially run output of p2 
+# HEREEEEEE Need to find a way to sequentially run output of p2 
 
 
 # Bind user_ids 
 
 user_ids <- rbind(user_ids1, user_ids3, user_ids3, user_ids4, user_ids5, user_ids6)
 
-
+# Write out final dataset of user IDs
 write_rds(user_ids, here("input_data", "MP_user_ids.rds"))
 
-rm(MPs_Twitter, screen_names, screen_names_split, user_ids, user_ids1, user_ids2, user_ids3, user_ids4, user_ids5, user_ids6)
+# Remove objects to keep workspace clean 
+rm(MPs_Twitter, 
+   screen_names, 
+   screen_names_split, 
+   user_ids, 
+   user_ids1, 
+   user_ids2, 
+   user_ids3, 
+   user_ids4, 
+   user_ids5, 
+   user_ids6)
 
