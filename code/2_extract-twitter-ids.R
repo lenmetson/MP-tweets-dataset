@@ -12,37 +12,25 @@ screen_names <- c(MPs_Twitter$Screen.name) %>%
 screen_names_split <- split(screen_names, ceiling(seq_along(screen_names)/100)) # split names into batches of 100 (as this is how many the API will take per call)
 
 
-# Function that writes the batches we need to run 
-fun1 <- function(r) {
-  fun1_output <- paste0("user_ids", r, " <- get_user_id(", "screen_names_split$`", r, "`, bearer_token = get_bearer(), all = TRUE, keep_na = TRUE)" ) # writes code for each batch
-  return(eval(parse(text=fun1_output))) # Returns the output of running each outputted text
-}
+# Write loop that outputs batches of user ids
 
-p2 <- fun1(1:ceiling(nrow(MPs_Twitter)/100))
-
-p2
-# HEREEEEEE Need to find a way to sequentially run output of p2 
-
-testfun <- function(t) {
-  testfun_output <- paste0("test_id", t, "<-", t)
-  return(
-    eval(
-      parse(
-        text =testfun_output)
+for (x in 1:ceiling(nrow(MPs_Twitter)/100)) {
+  eval(
+    parse(
+      text = 
+        paste0("user_ids", 
+               x, 
+               " <- get_user_id(screen_names_split$`", 
+               x, "`, bearer_token = get_bearer(), all = TRUE, keep_na = TRUE)")
       )
     )
 }
 
-testfun(1:ceiling(nrow(MPs_Twitter)/100))
 
 for (i in 1:ceiling(nrow(MPs_Twitter)/100)) {
   eval(parse(text = paste0("test_id", i, "<-", i)))
 }
 
-t <- 1
-eval(parse(text = paste0("test_id", t, "<-", t)))
-
-# Maybe do this it in a loop (see test) 
 
 # Bind user_ids 
 
