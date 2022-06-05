@@ -27,14 +27,24 @@ for (x in 1:ceiling(nrow(MPs_Twitter)/100)) {
 }
 
 
-for (i in 1:ceiling(nrow(MPs_Twitter)/100)) {
-  eval(parse(text = paste0("test_id", i, "<-", i)))
+
+
+# WORKING ON 
+
+fn_bind <- function(i) {
+  fn_dfs <- paste0("user_ids", i)
+  return(rbind(fn_dfs))
+  
 }
+
+dfs <- fn_bind(1:ceiling(nrow(MPs_Twitter)/100))
+dfs <- paste(dfs, collapse = ",")
+
+eval(parse(text = paste0("user_ids <- rbind(", dfs, ")")))
 
 
 # Bind user_ids 
-
-user_ids <- rbind(user_ids1, user_ids3, user_ids3, user_ids4, user_ids5, user_ids6)
+user_ids_manual <- rbind(user_ids1, user_ids3, user_ids3, user_ids4, user_ids5, user_ids6) # how to do this automatically!!
 
 # Write out final dataset of user IDs
 write_rds(user_ids, here("input_data", "MP_user_ids.rds"))
