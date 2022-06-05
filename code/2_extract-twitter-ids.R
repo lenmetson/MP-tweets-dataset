@@ -49,15 +49,18 @@ user_ids_manual <- rbind(user_ids1, user_ids3, user_ids3, user_ids4, user_ids5, 
 # Write out final dataset of user IDs
 write_rds(user_ids, here("input_data", "MP_user_ids.rds"))
 
+
+
+
 # Remove objects to keep workspace clean 
-rm(MPs_Twitter, 
-   screen_names, 
-   screen_names_split, 
-   user_ids, 
-   user_ids1, 
-   user_ids2, 
-   user_ids3, 
-   user_ids4, 
-   user_ids5, 
-   user_ids6)
+# rm(MPs_Twitter, 
+#    screen_names, 
+#    screen_names_split, 
+#    user_ids, 
+#    user_ids1, 
+#    user_ids2, 
+#    user_ids3, 
+#    user_ids4, 
+#    user_ids5, 
+#    user_ids6)
 
