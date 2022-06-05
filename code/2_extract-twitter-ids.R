@@ -8,7 +8,23 @@ screen_names <- c(MPs_Twitter$Screen.name) %>%
 screen_names_split <- split(screen_names, ceiling(seq_along(screen_names)/100)) # split names into batches of 100 (as this is how many the API will take per call)
 
 
-ceiling(nrow(MPs_Twitter)/100) # way of working out how many batches there will be
+# Function that creates desired batch names  
+fun1 <- function(p) {
+  fun1x <- paste0("user_ids", p, " <- get_user_id()", )
+  return(fun1x)
+}
+
+p2 <- fun1(1:ceiling(nrow(MPs_Twitter)/100))
+
+# Function that creates subsects of the data 
+fun2 <- function(r) {
+  fun2x <- paste0("screen_names_split$`", r, "`, bearer_token = get_bearer(), all = TRUE, keep_na = TRUE)")
+  return(fun2x)
+}
+
+r2 <- fun2(1:ceiling(nrow(MPs_Twitter)/100))
+
+
 
 
 user_ids1 <- get_user_id(
