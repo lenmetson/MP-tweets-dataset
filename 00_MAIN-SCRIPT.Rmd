@@ -39,3 +39,21 @@ Helpfully, [Michael Keith](https://www.michaelkeith.co.uk/) has created a [onlin
 ```{r}
 source(here("code", "1_pull-latest-MPs.R"))
 ```
+
+Next, we use this dataset to pull each MP's Twitter user ID by their user display name. The following script:
+
+-   Extracts usernames and cleans them
+
+-   Splits the user names into batches of no more than 100 users at a time then requests their ids from the Twitter API.
+
+-   Finally, it binds them together and outputs a dataframe called `user_ids`
+
+    ```{r}
+    source(here("code", "2_extract-twitter-ids.R"))
+    ```
+
+There are some differences between the number of Twitter MPs and the ones that are pulled, and by the automerging process compared to manually merging. I am going to investigate in the following code:
+
+```{r}
+
+```
