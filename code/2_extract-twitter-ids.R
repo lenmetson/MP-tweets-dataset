@@ -14,13 +14,28 @@ screen_names_split <- split(screen_names, ceiling(seq_along(screen_names)/100)) 
 
 # Function that writes the batches we need to run 
 fun1 <- function(r) {
-  fun1_output <- paste0("user_ids", r, " <- get_user_id(", "screen_names_split$`", r, "`, bearer_token = get_bearer(), all = TRUE, keep_na = TRUE)" )
-  return(fun1_output)
+  fun1_output <- paste0("user_ids", r, " <- get_user_id(", "screen_names_split$`", r, "`, bearer_token = get_bearer(), all = TRUE, keep_na = TRUE)" ) # writes code for each batch
+  return(eval(parse(text=fun1_output))) # Returns the output of running each outputted text
 }
 
 p2 <- fun1(1:ceiling(nrow(MPs_Twitter)/100))
 
+p2
 # HEREEEEEE Need to find a way to sequentially run output of p2 
+
+testfun <- function(t) {
+  testfun_output <- paste0("test_id", t, "<-", t)
+  return(
+    eval(
+      parse(
+        text =testfun_output)
+      )
+    )
+}
+
+testfun(1:ceiling(nrow(MPs_Twitter)/100))
+
+
 
 
 # Bind user_ids 
