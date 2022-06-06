@@ -61,7 +61,7 @@ missing_ids <- MPs_Twitter_with_ids %>% filter(is.na(id)) # save MPs whos ID is 
 eval(parse(text = paste0("write_rds(MPs_Twitter_with_ids, here('input_data', 'MPs_Twitter_ids_", Sys.Date(), ".rds'))"))) 
 eval(parse(text = paste0("write_rds(missing_ids, here('input_data', 'missing_ids_", Sys.Date(), ".rds'))"))) 
 
-rm(list=ls()[! ls() %in% c("MPs_Twitter_with_ids")])
+rm(list=ls()[! ls() %in% c("MPs_Twitter_with_ids", "missing_ids")])
 
 
 

@@ -6,7 +6,7 @@ eval(parse(text = paste0("download.file(url1, here('input_data', 'MPs_Twitter_",
 url2 <- "https://www.politics-social.com/api/list/csv/unlisted"
 eval(parse(text = paste0("download.file(url2, here('input_data', 'MPs_noTwitter_", Sys.Date(), ".csv'))")))
 
-rm(url, url2)
+rm(url1, url2)
 
 
 eval(parse(text = paste0("MPs_Twitter <- read.csv(here('input_data', 'MPs_Twitter_", Sys.Date(), ".csv'))")))

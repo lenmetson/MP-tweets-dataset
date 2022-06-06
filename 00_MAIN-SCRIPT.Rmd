@@ -29,6 +29,8 @@ The rest of the code can be run from this repository
 
 ## Collecting IDs
 
+Might collapse 1 and 2 into one script
+
 ```{r}
 if (!require("here")) install.packages("here")
 source(here("code", "01_packages.R"))
