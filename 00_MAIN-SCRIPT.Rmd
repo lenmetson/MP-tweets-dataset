@@ -48,13 +48,29 @@ Next, we use this dataset to pull each MP's Twitter user ID by their user displa
 
 -   Finally, it binds them together and outputs a dataframe called `user_ids`
 
-    ```{r}
-    source(here("code", "2_extract-twitter-ids.R"))
-    ```
+```{r}
+source(here("code", "2_extract-twitter-ids.R"))
+```
 
 There are some differences between the number of Twitter MPs and the ones that are pulled, and by the automerging process compared to manually merging. I am going to investigate in the following code:
 
-```{r}
+```
+# Bind back into MPs_Twitter 
 
+user_ids$Screen.name <- paste0("@", user_ids$username) # add back @ symbol 
+
+user_ids <- user_ids %>% rename(
+  "twiter_name_at_pull" = "name",
+  "username_for_pull" = "username"
+)
+
+MPs_Twitter_with_ids <- left_join(MPs_Twitter, user_ids, by = "Screen.name")
 
 ```
+
+This code chunk is present in the `2_extract-twitter-ids.R` script. Manually inspect missing MPs
+
+```{r}
+missing_ids <- MPs_Twitter_with_ids %>% filter(is.na(id))
+```
+
