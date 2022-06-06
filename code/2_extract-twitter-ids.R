@@ -9,12 +9,12 @@ screen_names <- c(MPs_Twitter$Screen.name) %>%
 
 # We can't call all of the MPs at the same time, so we need to split them into batches then create separate functions 
 
-screen_names_split <- split(screen_names, ceiling(seq_along(screen_names)/100)) # split names into batches of 100 (as this is how many the API will take per call)
+screen_names_split <- split(screen_names, ceiling(seq_along(screen_names)/50)) # split names into batches of 50 (as there is a limit of how many the API will take per call)
 
 
 # Write loop that outputs batches of user ids
 
-for (x in 1:ceiling(nrow(MPs_Twitter)/100)) {
+for (x in 1:ceiling(nrow(MPs_Twitter)/50)) {
   eval(
     parse(
       text = 
@@ -37,17 +37,30 @@ fn_bind <- function(i) {
   
 }
 
-dfs <- fn_bind(1:ceiling(nrow(MPs_Twitter)/100))
+dfs <- fn_bind(1:ceiling(nrow(MPs_Twitter)/50))
 dfs <- paste(dfs, collapse = ",")
 
 eval(parse(text = paste0("user_ids <- rbind(", dfs, ")")))
 
 
-# Bind user_ids 
-user_ids_manual <- rbind(user_ids1, user_ids3, user_ids3, user_ids4, user_ids5, user_ids6) # how to do this automatically!!
+# Bind back into MPs_Twitter 
 
-# Write out final dataset of user IDs
-write_rds(user_ids, here("input_data", "MP_user_ids.rds"))
+user_ids$Screen.name <- paste0("@", user_ids$username) # add back @ symbol 
+
+user_ids <- user_ids %>% rename(
+  "twiter_name_at_pull" = "name",
+  "username_for_pull" = "username"
+)
+
+MPs_Twitter_with_ids <- left_join(MPs_Twitter, user_ids, by = "Screen.name")
+
+
+missing_ids <- MPs_Twitter_with_ids %>% filter(is.na(id)) # save MPs whos ID is missing and perform necessary manual validation as to why 
+
+# Write out final files 
+
+eval(parse(text = paste0("write_rds(MPs_Twitter_with_ids, here('input_data', 'MPs_Twitter_ids_", Sys.Date(), ".rds'))"))) 
+eval(parse(text = paste0("write_rds(missing_ids, here('input_data', 'missing_ids_", Sys.Date(), ".rds'))"))) 
 
 
 
@@ -63,4 +76,6 @@ write_rds(user_ids, here("input_data", "MP_user_ids.rds"))
 #    user_ids4, 
 #    user_ids5, 
 #    user_ids6)
+
+
 
