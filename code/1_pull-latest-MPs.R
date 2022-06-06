@@ -1,9 +1,15 @@
 # Script to pull latest MPs from www.politics-social.com
 
-url <- "https://www.politics-social.com/api/list/csv/name"
-download.file(url, here("input_data", "MPs_Twitter.csv"))
+url1 <- "https://www.politics-social.com/api/list/csv/name"
+eval(parse(text = paste0("download.file(url1, here('input_data', 'MPs_Twitter_", Sys.Date(), ".csv'))" ))) 
 
 url2 <- "https://www.politics-social.com/api/list/csv/unlisted"
-download.file(url2, here("input_data", "MPs_noTwitter.csv"))
+eval(parse(text = paste0("download.file(url2, here('input_data', 'MPs_noTwitter_", Sys.Date(), ".csv'))" ))) 
 
-rm(url, url2)
+
+rm(url1, url2)
+
+eval(parse(text = paste0("download.file(url2, here('input_data', 'MPs_noTwitter_", Sys.Date(), ".csv'))" ))) 
+
+
+here()
