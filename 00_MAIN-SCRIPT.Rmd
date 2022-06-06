@@ -113,4 +113,6 @@ Whilst I work on automating the download:
 
 -   Visit the link, and download as `wiki_query.csv`
 
+This leaves us with merged data, which we can then use to add to tweets once we have pulled them in the next stage.
+
 ## Pulling Tweets
