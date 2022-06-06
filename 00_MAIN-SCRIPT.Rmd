@@ -105,4 +105,12 @@ Some notes on the query code
 
 is the link to Wikidata's interactive service with this query. The data can be obtained by pressing the large blue arrow on the left then downloading as a `.csv` file. But I want to make this automated.
 
+You can also go straight to the result here:
+
+<https://query.wikidata.org/sparql?query=SELECT%20DISTINCT%20%3Fperson%20%3FpersonLabel%20%3FseatLabel%20%3FpartyLabel%20%3FcountryLabel%20%3FsexorgenderLabel%20%3FdateofbirthLabel%20WHERE%0A%7B%0A%20%20%3Fperson%20wdt%3AP31%20wd%3AQ5%20.%20%3Fperson%20p%3AP39%20%3Fps%20.%20%0A%20%20%3Fps%20ps%3AP39%20%3Fterm%20.%20%3Fterm%20wdt%3AP279%20wd%3AQ16707842%20.%0A%20%20%3Fps%20pq%3AP580%20%3Fstart%20.%20%3Fps%20pq%3AP4100%20%3Fparty%20.%20%3Fps%20pq%3AP768%20%3Fseat%20.%20%0A%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fps%20pq%3AP582%20%3Fend%20%7D%20.%0A%20%20%3Fperson%20wdt%3AP569%20%3Fdateofbirth%20.%0A%20%20%3Fperson%20wdt%3AP21%20%3Fsexorgender%20.%0A%20%20%3Fseat%20wdt%3AP131%2B%20%3Fcountry%20.%20%3Fcountry%20wdt%3AP31%20wd%3AQ3336843%20.%20%0A%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22.%20%7D%0A%7D>
+
+Whilst I work on automating the download:
+
+-   Visit the link, and download as `wiki_query.csv`
+
 ## Pulling Tweets
