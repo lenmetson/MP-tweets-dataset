@@ -27,7 +27,7 @@ Once you have an academic licence:
 
 The rest of the code can be run from this repository
 
-## Code
+## Collecting IDs
 
 ```{r}
 if (!require("here")) install.packages("here")
@@ -54,19 +54,16 @@ source(here("code", "2_extract-twitter-ids.R"))
 
 There are some differences between the number of Twitter MPs and the ones that are pulled, and by the automerging process compared to manually merging. I am going to investigate in the following code:
 
-```
-# Bind back into MPs_Twitter 
+    # Bind back into MPs_Twitter 
 
-user_ids$Screen.name <- paste0("@", user_ids$username) # add back @ symbol 
+    user_ids$Screen.name <- paste0("@", user_ids$username) # add back @ symbol 
 
-user_ids <- user_ids %>% rename(
-  "twiter_name_at_pull" = "name",
-  "username_for_pull" = "username"
-)
+    user_ids <- user_ids %>% rename(
+      "twiter_name_at_pull" = "name",
+      "username_for_pull" = "username"
+    )
 
-MPs_Twitter_with_ids <- left_join(MPs_Twitter, user_ids, by = "Screen.name")
-
-```
+    MPs_Twitter_with_ids <- left_join(MPs_Twitter, user_ids, by = "Screen.name")
 
 This code chunk is present in the `2_extract-twitter-ids.R` script. Manually inspect missing MPs
 
@@ -74,3 +71,36 @@ This code chunk is present in the `2_extract-twitter-ids.R` script. Manually ins
 missing_ids <- MPs_Twitter_with_ids %>% filter(is.na(id))
 ```
 
+## Adding meta data about MPs and their constituencies
+
+Now we have a dataset of MPs' Twitter IDs, we can use other sources to add meta data about each MP. We will first add data from WikiData.
+
+WikiData uses a language called SPARQL to access its data. We can use the following code to pull some information about sitting MPs
+
+    SELECT DISTINCT ?person ?personLabel ?seatLabel ?partyLabel ?countryLabel ?sexorgenderLabel ?dateofbirthLabel WHERE
+    {
+      ?person wdt:P31 wd:Q5 . ?person p:P39 ?ps . 
+      ?ps ps:P39 ?term . ?term wdt:P279 wd:Q16707842 .
+      ?ps pq:P580 ?start . ?ps pq:P4100 ?party . ?ps pq:P768 ?seat . 
+      FILTER NOT EXISTS { ?ps pq:P582 ?end } .
+      ?person wdt:P569 ?dateofbirth .
+      ?person wdt:P21 ?sexorgender .
+      ?seat wdt:P131+ ?country . ?country wdt:P31 wd:Q3336843 . 
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+    }
+
+Some notes on the query code
+
+-   `DISTINCT` ensures there are no duplicates
+
+-   `FILTER NOT EXISTS { ?ps pq:P582 ?end }` filters out entries which have an "end date" on the position of MP - implying they are currelty MPs
+
+-   Statements like `?personLabel` say we want the person's name as a Label (i.e. not Wikicode)
+
+-   For sex, the code `?person wdt:P569 ?dateofbirth .` tells the data base what we mean by date of birth
+
+<https://query.wikidata.org/#SELECT%20DISTINCT%20%3Fperson%20%3FpersonLabel%20%3FseatLabel%20%3FpartyLabel%20%3FcountryLabel%20%3FsexorgenderLabel%20%3FdateofbirthLabel%20WHERE%0A%7B%0A%20%20%3Fperson%20wdt%3AP31%20wd%3AQ5%20.%20%3Fperson%20p%3AP39%20%3Fps%20.%20%0A%20%20%3Fps%20ps%3AP39%20%3Fterm%20.%20%3Fterm%20wdt%3AP279%20wd%3AQ16707842%20.%0A%20%20%3Fps%20pq%3AP580%20%3Fstart%20.%20%3Fps%20pq%3AP4100%20%3Fparty%20.%20%3Fps%20pq%3AP768%20%3Fseat%20.%20%0A%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fps%20pq%3AP582%20%3Fend%20%7D%20.%0A%20%20%3Fperson%20wdt%3AP569%20%3Fdateofbirth%20.%0A%20%20%3Fperson%20wdt%3AP21%20%3Fsexorgender%20.%0A%20%20%3Fseat%20wdt%3AP131%2B%20%3Fcountry%20.%20%3Fcountry%20wdt%3AP31%20wd%3AQ3336843%20.%20%0A%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22.%20%7D%0A%7D>
+
+is the link to Wikidata's interactive service with this query. The data can be obtained by pressing the large blue arrow on the left then downloading as a `.csv` file. But I want to make this automated.
+
+## Pulling Tweets
