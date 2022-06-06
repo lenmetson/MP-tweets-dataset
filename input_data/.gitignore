@@ -10,3 +10,6 @@ missing_ids*.rds
 MPs_Twitter_ids*.rds
 
 wiki_query*.csv
+
+MPs_meta*.rds
+failed_wiki_merge*.rds
