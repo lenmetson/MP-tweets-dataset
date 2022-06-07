@@ -1,15 +1,46 @@
-ids <- read_rds(here("input_data", "MP_user_ids.rds"))
+# First: assign a vector of ids 
 
-ids_batch1 <- ids[1:10]
-ids_batch2 <- ids[11:20]
-ids_batch3 <- ids[21:30]
-ids_batch4 <- ids[31:40]
-ids_batch5 <- ids[41:50]
-ids_batch6 <- ids[51:60]
-ids_batch7 <- ids[61:70]
-ids_batch8 <- ids[71:80]
-ids_batch9 <- ids[81:90]
-ids_batch10 <- ids[91:95]
+ids <- 
+  MPs_Twitter_with_ids$id %>% 
+  na.omit()
+
+
+# Now we need to split into batches of MPs to pull
+
+ids_split <- split(ids, ceiling(seq_along(ids)/10))
+
+
+# Below code executes pull 
+
+for (x in 1:ceiling(length(ids)/10)) {
+  eval(
+    parse(
+      text = 
+        paste0("ids_batch", 
+               x,
+               "<- ids_split$`",
+               x, 
+               "`"
+               )
+    )
+  )
+  
+  #eval(
+    parse(
+      text = 
+        paste0("tweets_batch", 
+               x, 
+               "<- get_all_tweets(query = '',start_tweets = '',end_tweets = '',file = 'tweets',n=1000000, users = ids_batch",
+               x
+               )
+    )
+  #)
+}
+
+
+
+
+
 
 
 # Pull tweets

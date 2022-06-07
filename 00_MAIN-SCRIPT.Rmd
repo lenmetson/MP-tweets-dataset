@@ -38,7 +38,6 @@ source(here("code", "01_packages.R"))
 
 Helpfully, [Michael Keith](https://www.michaelkeith.co.uk/) has created a [online dashboard](https://www.politics-social.com/) of British MPs' Twitter activity. On the website, there are `.csv` files which allow us to pull MPs' usernames. Run the following script:
 
-
 Next, we use this dataset to pull each MP's Twitter user ID by their user display name. The rest of the script:
 
 -   Extracts usernames and cleans them
@@ -113,3 +112,7 @@ Whilst I work on automating the download:
 This leaves us with merged data, which we can then use to add to tweets once we have pulled them in the next stage.
 
 ## Pulling Tweets
+
+```{r}
+
+```
