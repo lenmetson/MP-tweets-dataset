@@ -38,11 +38,8 @@ source(here("code", "01_packages.R"))
 
 Helpfully, [Michael Keith](https://www.michaelkeith.co.uk/) has created a [online dashboard](https://www.politics-social.com/) of British MPs' Twitter activity. On the website, there are `.csv` files which allow us to pull MPs' usernames. Run the following script:
 
-```{r}
-source(here("code", "1_pull-latest-MPs.R"))
-```
 
-Next, we use this dataset to pull each MP's Twitter user ID by their user display name. The following script:
+Next, we use this dataset to pull each MP's Twitter user ID by their user display name. The rest of the script:
 
 -   Extracts usernames and cleans them
 
@@ -51,14 +48,14 @@ Next, we use this dataset to pull each MP's Twitter user ID by their user displa
 -   Finally, it binds them together and outputs a dataframe called `user_ids`
 
 ```{r}
-source(here("code", "2_extract-twitter-ids.R"))
+source(here("code", "1_extract-latest-ids.R"))
 ```
 
 There are some differences between the number of Twitter MPs and the ones that are pulled, and by the automerging process compared to manually merging. I am going to investigate in the following code:
 
-    # Bind back into MPs_Twitter 
+    # Bind back into MPs_Twitter
 
-    user_ids$Screen.name <- paste0("@", user_ids$username) # add back @ symbol 
+    user_ids$Screen.name <- paste0("@", user_ids$username) # add back @ symbol
 
     user_ids <- user_ids %>% rename(
       "twiter_name_at_pull" = "name",
@@ -81,13 +78,13 @@ WikiData uses a language called SPARQL to access its data. We can use the follow
 
     SELECT DISTINCT ?person ?personLabel ?seatLabel ?partyLabel ?countryLabel ?sexorgenderLabel ?dateofbirthLabel WHERE
     {
-      ?person wdt:P31 wd:Q5 . ?person p:P39 ?ps . 
+      ?person wdt:P31 wd:Q5 . ?person p:P39 ?ps .
       ?ps ps:P39 ?term . ?term wdt:P279 wd:Q16707842 .
-      ?ps pq:P580 ?start . ?ps pq:P4100 ?party . ?ps pq:P768 ?seat . 
+      ?ps pq:P580 ?start . ?ps pq:P4100 ?party . ?ps pq:P768 ?seat .
       FILTER NOT EXISTS { ?ps pq:P582 ?end } .
       ?person wdt:P569 ?dateofbirth .
       ?person wdt:P21 ?sexorgender .
-      ?seat wdt:P131+ ?country . ?country wdt:P31 wd:Q3336843 . 
+      ?seat wdt:P131+ ?country . ?country wdt:P31 wd:Q3336843 .
       SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
     }
 
