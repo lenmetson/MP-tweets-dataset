@@ -32,13 +32,6 @@ for (x in 1:ceiling(length(ids)/10)) {
       ))
 }
 
-get_all_tweets(query = '', start_tweets = '2022-04-09T01:00:00Z',
-                           end_tweets = '2022-06-09T01:00:00Z',
-                                  bind_tweets = FALSE, 
-                                  n=100, 
-                                  users = c("len_metson"), 
-                                  data_path = here("output_data", "batch_test"))
-
 
 # Load jsons into R 
 
@@ -49,9 +42,6 @@ for (y in 1:ceiling(length(ids)/10)) {
   ))
 }
 
-y <- "test"
-
-tweets_test <- bind_tweets(here("output_data", "batch_test"))
 
 # Get user info 
 
