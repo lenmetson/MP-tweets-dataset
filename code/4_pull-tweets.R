@@ -10,7 +10,7 @@ ids <-
 ids_split <- split(ids, ceiling(seq_along(ids)/10))
 
 
-# Below code executes pull 
+# Below code executes pulls 
 
 for (x in 1:ceiling(length(ids)/10)) {
   eval(
@@ -25,35 +25,36 @@ for (x in 1:ceiling(length(ids)/10)) {
     )
   )
   
-  #eval(
-    parse(
-      text = 
-        paste0("tweets_batch", 
-               x, 
-               "<- get_all_tweets(query = '',start_tweets = '',end_tweets = '',file = 'tweets',n=1000000, users = ids_batch",
-               x
-               )
-    )
-  #)
+  eval(
+    parse(text = 
+        paste0("get_all_tweets(query = '', start_tweets = '2020-06-09T01:00:00Z', end_tweets = '2022-06-09T01:00:00Z', bind_tweets = FALSE, n=100000, users = ids_batch", x, ", data_path = here('output_data', 'batch_", x, "'))")
+               
+      ))
 }
 
+get_all_tweets(query = '', start_tweets = '2022-04-09T01:00:00Z',
+                           end_tweets = '2022-06-09T01:00:00Z',
+                                  bind_tweets = FALSE, 
+                                  n=100, 
+                                  users = c("len_metson"), 
+                                  data_path = here("output_data", "batch_test"))
 
 
+# Load jsons into R 
 
+for (y in 1:ceiling(length(ids)/10)) {
+  eval(
+    parse(text = 
+            paste0("tweets_", y, "<- bind_tweets(here('output_data', 'batch_", y, "))")
+  ))
+}
 
+y <- "test"
 
+tweets_test <- bind_tweets(here("output_data", "batch_test"))
 
-# Pull tweets
+# Get user info 
 
-tweets_batch1 <-
-  get_all_tweets(
-    query = "",
-    start_tweets = "2021-04-06T00:00:00.000Z" ,
-    end_tweets = "2022-04-06T00:00:00.000Z",
-    file = "tweets",
-    n = 1000000,
-    users = c(3131144855)
-  )
+#paste0("MP_profiles_batch", x, "<- get_user_profile(ids_batch", x, ", bearer_token = get_bearer())") 
 
-write_rds(tweets_batch1, here("data_raw", "tweets_batch1.rds"))
 
