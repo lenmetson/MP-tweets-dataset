@@ -1,5 +1,4 @@
-tweets_batch1.rds
-tweets_boris.rds
-
-tweets_batch1*.rds
-tweets_boris*.rds
+*
+*/
+!.gitignore
+!README.md 
