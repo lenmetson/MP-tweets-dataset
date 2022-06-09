@@ -13,7 +13,7 @@ query1 <-
     ?person wdt:P569 ?dateofbirth .
     ?person wdt:P21 ?sexorgender .
     ?seat wdt:P131+ ?country . ?country wdt:P31 wd:Q3336843 .
-    SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+    SERVICE wikibase:label { bd:serviceParam wikibase:language 'en'. }
   }"
 
 
