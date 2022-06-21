@@ -27,11 +27,11 @@ for (x in 1:ceiling(length(ids)/10)) {
   
   eval(
     parse(text = 
-        paste0("get_all_tweets(query = '', start_tweets = '2020-06-09T01:00:00Z', end_tweets = '2022-06-09T01:00:00Z', bind_tweets = FALSE, n=100000, users = ids_batch", x, ", data_path = here('output_data', 'batch_", x, "'))")
-               
+        paste0("get_all_tweets(query = '', start_tweets = '2022-06-07T16:06:00Z', end_tweets = '2022-06-09T16:06:00Z', bind_tweets = FALSE, n=100000, users = ids_batch", x, ", data_path = here('output_data', 'batch_", x, "'))")
       ))
 }
 
+paste0("get_all_tweets(query = '', start_tweets = '2022-06-08T16:06:00Z', end_tweets = '2022-06-09T16:06:00Z', bind_tweets = FALSE, n=100000, users = ids_batch", x, ", data_path = here('output_data', 'batch_", x, "'))")
 
 # Load jsons into R 
 
@@ -42,9 +42,5 @@ for (y in 1:ceiling(length(ids)/10)) {
   ))
 }
 
-
-# Get user info 
-
-#paste0("MP_profiles_batch", x, "<- get_user_profile(ids_batch", x, ", bearer_token = get_bearer())") 
 
 
